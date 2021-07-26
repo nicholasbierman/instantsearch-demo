@@ -5,6 +5,10 @@ import {
   Hits,
   SearchBox,
   Pagination,
+  RefinementList,
+  ClearRefinements,
+  HierarchicalMenu,
+  Menu
 } from 'react-instantsearch-dom';
 import PropTypes from 'prop-types';
 import './App.css';
@@ -30,16 +34,30 @@ function App() {
       <div className="container">
         <InstantSearch
           searchClient={searchClient}
-          indexName='golf_courses'
+          indexName='best-buy'
         >
           <div className="search-panel">
             <div className="search-panel__results">
               <SearchBox
                 className="searchbox"
                 translations={{
-                  placeholder: '',
+                  placeholder: 'Search for name, brand, type...',
                 }}
               />
+              <div className="left-panel">
+                <ClearRefinements />
+                <HierarchicalMenu attributes={[
+                  'hierarchicalCategories.lvl0',
+                  'hierarchicalCategories.lvl1',
+                  'hierarchicalCategories.lvl2',
+                  'hierarchicalCategories.lvl3',
+                  
+                ]}/>
+                <h2>Brand</h2>
+                <RefinementList attribute="brand" />
+                <h2>Type</h2>
+                <RefinementList attribute="type" />
+              </div>
               <Hits hitComponent={Hit} />
 
               <div className="pagination">
@@ -58,8 +76,10 @@ function Hit(props) {
     <article>
       <p>
         <code>{props.hit.name}</code>
+        <br />
+        <code>{props.hit.city}, {props.hit.state}</code>
       </p>
-      <img src={props.hit.img_url} alt="" width="100px" height="100px" href={props.hit.img_url}></img>
+      <img src={props.hit.img_url} alt="" width="100px" height="100px"></img>
     </article>
   );
 }
