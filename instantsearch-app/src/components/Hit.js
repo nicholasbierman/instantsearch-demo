@@ -10,6 +10,7 @@ export const Hit = ({ hit }) => {
         <p>
             {/* <code>{hit.name}</code>
             <code>{hit.description}</code> */}
+            ${hit.price}
         </p>
       </article>
       <Highlight hit={hit} attribute="name" tagName="code" />
