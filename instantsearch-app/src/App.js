@@ -9,6 +9,7 @@ import {
   Pagination,
   RefinementList,
   SearchBox,
+  RatingMenu
 } from 'react-instantsearch-dom';
 import './App.css';
 import { Hit } from './components/Hit';
@@ -83,6 +84,8 @@ function App() {
               <RefinementList attribute="type" />
               <h2>Free Shipping</h2>
               <RefinementList attribute="free_shipping" />
+              <h2>Star Rating</h2>
+              <RatingMenu attribute="rating" />
             </div>
             <Hits hitComponent={Hit} />
 
