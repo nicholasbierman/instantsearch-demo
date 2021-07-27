@@ -1,21 +1,23 @@
-import React from "react";
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Highlight } from 'react-instantsearch-dom';
 
 export const Hit = ({ hit }) => {
-    return (
+  return (
+    <div>
       <article>
         <img src={hit.image} alt={hit.name} width="100px" height="100px"></img>
-        <p>
-          <code>{hit.name}</code>
-          <br />
-          <code>{hit.description}</code>
-        </p>
       </article>
-    );
-  }
-  
-  Hit.propTypes = {
-    hit: PropTypes.object.isRequired,
-  };
+      <Highlight hit={hit} attribute="name" tagName="code" />
+      <br />
+      <br />
+      <Highlight hit={hit} attribute="description" tagName="code" />
+    </div>
+  );
+};
 
-  export default Hit;
+Hit.propTypes = {
+  hit: PropTypes.object.isRequired,
+};
+
+export default Hit;
