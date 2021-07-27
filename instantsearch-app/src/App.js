@@ -1,9 +1,9 @@
 import algoliasearch from 'algoliasearch/lite';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ClearRefinements,
-  HierarchicalMenu, Hits, InstantSearch, Pagination,
+  HierarchicalMenu, Hits, Index, InstantSearch, Pagination,
   RefinementList, SearchBox
 } from 'react-instantsearch-dom';
 import './App.css';
@@ -12,6 +12,7 @@ import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import { ProductItem } from './components/ProductItem';
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import {Hit} from './components/Hit';
+import {IndexSelector} from './components/IndexSelector';
 
 
 
@@ -24,9 +25,11 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 });
 
 function App() {
+  const [indexName, setIndexName] = useState('best-buy');
+
   return (
       <div className="container">
-        <Autocomplete
+        {/* <Autocomplete
           openOnFocus={false}
           plugins={[querySuggestionsPlugin]}
           getSources={({ query }) => [
@@ -50,10 +53,15 @@ function App() {
               }
             }
           ]}
-          />
+          /> */}
+         <select onChange={(e) => setIndexName(e.target.value)}>
+            <option value="best-buy">Relevance</option>
+            <option value="best-buy_price_desc">Price Descending</option>
+            <option value="best-buy-price_asc">Price Ascending</option>
+        </select>
         <InstantSearch
           searchClient={searchClient}
-          indexName='best-buy'
+          indexName={indexName}
         >
           <div className="search-panel">
             <div className="search-panel__results">
