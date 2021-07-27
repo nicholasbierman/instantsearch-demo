@@ -1,37 +1,56 @@
-import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
-import {
-  InstantSearch,
-  Hits,
-  SearchBox,
-  Pagination,
-  RefinementList,
-  ClearRefinements,
-  HierarchicalMenu,
-  Menu
-} from 'react-instantsearch-dom';
 import PropTypes from 'prop-types';
+import React from 'react';
+import {
+  ClearRefinements,
+  HierarchicalMenu, Hits, InstantSearch, Pagination,
+  RefinementList, SearchBox
+} from 'react-instantsearch-dom';
 import './App.css';
+import { Autocomplete } from './components/Autocomplete';
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
+import { ProductItem } from './components/ProductItem';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+import {Hit} from './components/Hit';
+
+
 
 const searchClient = algoliasearch('NSMMHUZMQS', 'ef0985fb06ac10d3b759ce42df2d4745'
 );
 
+const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+  searchClient,
+  indexName: 'best-buy_query_suggestions'
+});
+
 function App() {
   return (
-    <div>
-      <header className="header">
-        <h1 className="header-title">
-          <a href="/">instantsearch-app</a>
-        </h1>
-        <p className="header-subtitle">
-          using{' '}
-          <a href="https://github.com/algolia/react-instantsearch">
-            React InstantSearch
-          </a>
-        </p>
-      </header>
-
       <div className="container">
+        <Autocomplete
+          openOnFocus={false}
+          plugins={[querySuggestionsPlugin]}
+          getSources={({ query }) => [
+            {
+              sourceId: 'best-buy_query_suggestions',
+              getItems() {
+                return getAlgoliaResults({
+                  searchClient,
+                  queries: [
+                    {
+                      indexName: "best-buy_query_suggestions",
+                      query,
+                    },
+                  ],
+                });
+              },
+              templates: {
+                item({ item, components }) {
+                  return <ProductItem hit={item} components={components} />;
+                }
+              }
+            }
+          ]}
+          />
         <InstantSearch
           searchClient={searchClient}
           indexName='best-buy'
@@ -67,25 +86,9 @@ function App() {
           </div>
         </InstantSearch>
       </div>
-    </div>
   );
 }
 
-function Hit(props) {
-  return (
-    <article>
-      <p>
-        <code>{props.hit.name}</code>
-        <br />
-        <code>{props.hit.city}, {props.hit.state}</code>
-      </p>
-      <img src={props.hit.img_url} alt="" width="100px" height="100px"></img>
-    </article>
-  );
-}
 
-Hit.propTypes = {
-  hit: PropTypes.object.isRequired,
-};
 
 export default App;
