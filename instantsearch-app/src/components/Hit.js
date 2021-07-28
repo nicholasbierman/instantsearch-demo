@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Highlight, Snippet } from 'react-instantsearch-dom';
+import { Highlight, Snippet, connectHitInsights } from 'react-instantsearch-dom';
 
-export const Hit = ({ hit }) => {
+export const Hit = ({ hit, insights }) => {
+
+  const onClick = () => {
+    insights('clickedObjectIDsAfterSearch', {
+      eventName: "Product Clicked"
+    })
+  }
   return (
     <div>
       <article>
@@ -10,17 +16,22 @@ export const Hit = ({ hit }) => {
         <p>
             {/* <code>{hit.name}</code>
             <code>{hit.description}</code> */}
-            ${hit.price}
+            Price: ${hit.price}
         </p>
       </article>
-      <Highlight hit={hit} attribute="name" tagName="code" />
+      <Highlight hit={hit} attribute="name" tagName="em" />
       <br />
       <br />
       {/* <Highlight hit={hit} attribute="description" tagName="code" /> */}
       <Snippet hit={hit} attribute="description" />
+      <button onClick={onClick}>See Details</button>
     </div>
   );
 };
+
+// connect search-insights client to Hit component
+// so we can call the 'insights' function from within Hits
+export const HitWithInsights = connectHitInsights(window.aa)(Hit);
 
 Hit.propTypes = {
   hit: PropTypes.object.isRequired,

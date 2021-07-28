@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7.3.1/themes/reset-min.css" integrity="sha256-t2ATOGCtAIZNnzER679jwcFcKYfLlw01gli6F6oszk8=" crossorigin="anonymous">
+
+  <!--
+    Do not use @7 in production, use a complete version like x.x.x, see website for latest version:
+    https://www.algolia.com/doc/guides/building-search-ui/installation/react/#load-the-style
+  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@7/themes/algolia-min.css">
+
+  <title>instantsearch-app</title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+
+  <div class="carousel-container">
+    <h2>Popular</h2>
+    <div id="carousel-most-popular"></div>
+    <h2>Best Rated</h2>
+    <div id="carousel-best-rated"></div>
+    <h2>On Sale</h2>
+    <div id="carousel-on-sale"></div>
+    <h2>These might interest you</h2>
+    <div id="carousel-personalized"></div>
+    <h2>Gifts for Black Friday</h2>
+    <div id="carousel-black-friday-sale"></div>
+  </div>
+  
+</body>
+<script>
+    import instantsearch from 'instantsearch.js';
+import algoliasearch from 'algoliasearch';
+import { configure, index } from 'instantsearch.js/es/widgets';
+import { connectHits } from 'instantsearch.js/es/connectors';
+import onSaleImg from './onsale.png';
+
+const searchClient = algoliasearch(
+  'NSMMHUZMQS',
+  'ef0985fb06ac10d3b759ce42df2d4745'
+);
+
+const search = instantsearch({
+  indexName: 'best-buy',
+  searchClient,
+});
+
+// Customize UI of the Carousel
+const renderCarousel = ({ widgetParams, hits }, isFirstRender) => {
+  const container = document.querySelector(widgetParams.container);
+
+  if (isFirstRender) {
+    const carouselUl = document.createElement('ul');
+    carouselUl.classList.add('carousel-list-container');
+    container.appendChild(carouselUl);
+  }
+
+  container.querySelector('ul').innerHTML = hits
+    .map(
+      (hit) => `
+      <li>
+          ${
+            hit.onSale
+              ? `<img class="on-sale" src="${onSaleImg}" alt="">`
+              : ''
+          }
+          <img src="${hit.image}" alt="${hit.name}">
+          <span>${hit.brand}</span>
+          <a href="#">
+            <h3>${hit.name}</h3>
+          </a>
+          <p>${[...Array(hit.rating === 0 ? 1 : hit.rating).keys()]
+            .map(() => '⭐️')
+            .join('')}  (${hit.ratingsNumber})</p>
+            <p><span ${
+              hit.onSale ? 'style="text-decoration: line-through"' : ''
+            }>$${hit.price}</span> ${
+              hit.onSale ? `<span style="color: red">$${hit.newPrice}</span>` : ''}</p>
+      </li>
+      
+      `
+    )
+    .join('');
+};
+
+const carousel = connectHits(renderCarousel);
+
+// Add the widgets
+search.addWidgets([
+  // Carousel #1 - Popular 
+  index({
+    indexName: 'best-buy',
+    indexId: 'popular',
+  }).addWidgets([
+    configure({
+      hitsPerPage: 8,
+    }),
+    carousel({
+      container: '#carousel-most-popular',
+    }),
+  ]),
+
+  // Carousel #2 - Best Rated 
+  index({
+    indexName: 'e_commerce_transformed_rating_desc',
+    indexId: 'best-rated',
+  }).addWidgets([
+    configure({
+      hitsPerPage: 8,
+    }),
+    carousel({
+      container: '#carousel-best-rated',
+    }),
+  ]),
+
+  // Carousel #3 - On Sale
+  index({
+    indexName: 'e_commerce_transformed',
+    indexId: 'perso',
+  }).addWidgets([
+    configure({
+      hitsPerPage: 8,
+      filters: 'onSale:true'
+    }),
+    carousel({
+      container: '#carousel-on-sale',
+    }),
+  ]),
+
+  // Carousel #4 - These might interest you
+  index({
+    indexName: 'e_commerce_transformed',
+    indexId: 'personalized',
+  }).addWidgets([
+    configure({
+      hitsPerPage: 8,
+      enablePersonalization: true,
+      userToken: 'samsung_fan', // dynmically update user token
+    }),
+    carousel({
+      container: '#carousel-personalized',
+    }),
+  ]),
+
+  // Carousel #5 - Gifts for Black Friday
+  index({
+    indexName: 'e_commerce_transformed',
+    indexId: 'black-friday-gifts',
+  }).addWidgets([
+    configure({
+      hitsPerPage: 8,
+      ruleContexts: 'carousel_black_friday',
+    }),
+    carousel({
+      container: '#carousel-black-friday-sale',
+    }),
+  ])
+]);
+
+search.start();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@3.35.1/dist/algoliasearchLite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.0.0/dist/instantsearch.production.min.js"></script>
+</html>
