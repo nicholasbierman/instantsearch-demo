@@ -1,14 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Highlight, Snippet, connectHitInsights } from 'react-instantsearch-dom';
+import { Redirect, Link } from 'react-router-dom';
+import { storeSingleHit } from '../store/singleHit';
+import { useDispatch } from 'react-redux';
 
 export const Hit = ({ hit, insights }) => {
+  const dispatch = useDispatch();
 
   const onClick = () => {
     insights('clickedObjectIDsAfterSearch', {
       eventName: "Product Clicked"
-    })
+    });
+    dispatch(storeSingleHit(hit));
   }
+    
+    
+  
   return (
     <div>
       <article>
@@ -24,7 +32,7 @@ export const Hit = ({ hit, insights }) => {
       <br />
       {/* <Highlight hit={hit} attribute="description" tagName="code" /> */}
       <Snippet hit={hit} attribute="description" />
-      <button onClick={onClick}><a href={`/queryID=${hit.__queryID}`}>See Details</a></button>
+      <button onClick={onClick}><a href={`/product/${hit.objectID}`}>See Details</a></button>
     </div>
   );
 };

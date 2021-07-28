@@ -1,7 +1,7 @@
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 import algoliasearch from 'algoliasearch/lite';
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 import {
   ClearRefinements,
   HierarchicalMenu,
@@ -15,6 +15,7 @@ import {
 } from 'react-instantsearch-dom';
 import './App.css';
 import { Hit, HitWithInsights } from './components/Hit';
+import { useSelector } from 'react-redux';
 
 const searchClient = algoliasearch(
   'NSMMHUZMQS',
@@ -28,11 +29,14 @@ const querySuggestionsPlugin = createQuerySuggestionsPlugin({
 
 function App() {
   const [indexName, setIndexName] = useState('best-buy');
+  const singleHit = useSelector(state => state.singleHit);
 
   return (
-    <Router>
       <div className="container">
         <Switch>
+        <Route path="/product/:objectID" exact>
+            <Hit hit={singleHit} />
+          </Route>
           <Route path="/">
             {/* <Autocomplete
           openOnFocus={false}
@@ -102,9 +106,9 @@ function App() {
               <Configure clickAnalytics />
             </InstantSearch>
           </Route>
+          
         </Switch>
       </div>
-    </Router>
   );
 }
 
