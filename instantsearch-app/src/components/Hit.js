@@ -24,7 +24,7 @@ export const Hit = ({ hit, insights }) => {
       <br />
       {/* <Highlight hit={hit} attribute="description" tagName="code" /> */}
       <Snippet hit={hit} attribute="description" />
-      <button onClick={onClick}>See Details</button>
+      <button onClick={onClick}><a href={`/queryID=${hit.__queryID}`}>See Details</a></button>
     </div>
   );
 };
