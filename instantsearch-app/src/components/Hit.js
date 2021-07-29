@@ -8,7 +8,8 @@ import {
 import { Link } from 'react-router-dom';
 
 export const Hit = ({ hit, insights }) => {
-  const onClick = () => {
+  const onClick = (insights) => {
+    console.log(insights);
     insights('clickedObjectIDsAfterSearch', {
       eventName: 'Product Clicked',
     });
@@ -29,8 +30,8 @@ export const Hit = ({ hit, insights }) => {
       <br />
       {/* <Highlight hit={hit} attribute="description" tagName="code" /> */}
       <Snippet hit={hit} attribute="description" />
-      <button onClick={onClick}>
-        <Link to={{ pathname: `/objectID=${hit.objectID}&queryID=${hit.__queryID}`, hit: hit }}>See Details</Link>
+      <button onClick={onClick(insights)}>
+        <Link to={{ pathname: `/objectID=${hit.objectID}&queryID=${hit.__queryID}`, hit: hit, insights: insights }}>See Details</Link>
       </button>
     </div>
   );
@@ -44,4 +45,4 @@ Hit.propTypes = {
   hit: PropTypes.object.isRequired,
 };
 
-export default Hit;
+export default HitWithInsights;
