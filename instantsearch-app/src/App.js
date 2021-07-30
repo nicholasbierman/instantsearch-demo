@@ -31,31 +31,6 @@ function App() {
           <ProductDetails />
         </Route>
         <Route path="/">
-          {/* <Autocomplete
-          openOnFocus={false}
-          plugins={[querySuggestionsPlugin]}
-          getSources={({ query }) => [
-            {
-              sourceId: 'best-buy_query_suggestions',
-              getItems() {
-                return getAlgoliaResults({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: "best-buy_query_suggestions",
-                      query,
-                    },
-                  ],
-                });
-              },
-              templates: {
-                item({ item, components }) {
-                  return <ProductItem hit={item} components={components} />;
-                }
-              }
-            }
-          ]}
-          /> */}
           <select onChange={e => setIndexName(e.target.value)}>
             <option value="best-buy">Relevance</option>
             <option value="best-buy_price_desc">Price Descending</option>
