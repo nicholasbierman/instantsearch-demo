@@ -16,7 +16,7 @@ import './App.css';
 import HitWithInsights from './components/Hit';
 import ProductDetails from './components/ProductDetails';
 
-const searchClient = algoliasearch(
+export const searchClient = algoliasearch(
   'NSMMHUZMQS',
   'ef0985fb06ac10d3b759ce42df2d4745'
 );

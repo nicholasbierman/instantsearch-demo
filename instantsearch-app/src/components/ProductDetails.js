@@ -1,5 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router';
+import { Hits, InstantSearch, Configure } from 'react-instantsearch-dom';
+import { searchClient } from '../App';
+import HitWithInsights from './Hit';
 
 export const ProductDetails = () => {
   let hit = useLocation().hit;
@@ -11,6 +14,7 @@ export const ProductDetails = () => {
   };
 
   return (
+    <InstantSearch searchClient={searchClient} indexName="best-buy-rating_desc">
     <div>
       <button><a href="/">Return Home</a></button>
       <div className="aa-ItemContent">
@@ -23,8 +27,11 @@ export const ProductDetails = () => {
             Go Buy It!
           </a>
         </button>
-      </div>
+        </div>
+        <Hits hitComponent={HitWithInsights} />
+        <Configure hitsPerPage={4} clickAnalytics />
     </div>
+    </InstantSearch>
   );
 };
 
