@@ -2,9 +2,11 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import singleHit from './singleHit';
+import currentObjectIDs from './currentObjectID';
 
 const rootReducer = combineReducers({
-    singleHit,
+  singleHit,
+  currentObjectIDs
   });
 
   let enhancer;

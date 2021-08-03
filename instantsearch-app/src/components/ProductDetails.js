@@ -9,6 +9,15 @@ import {
 } from 'react-instantsearch-dom';
 import { searchClient } from '../App';
 import HitWithInsights from './Hit';
+import { FrequentlyBoughtTogether } from '@algolia/recommend-react';
+import { RelatedItem } from './RelatedItem';
+import recommend from '@algolia/recommend';
+
+
+const recommendClient = recommend(
+  'NSMMHUZMQS',
+  'ef0985fb06ac10d3b759ce42df2d4745'
+);
 
 export const ProductDetails = () => {
   let hit = useLocation().hit;
@@ -48,7 +57,13 @@ export const ProductDetails = () => {
           <h2>Other Popular Products</h2>
           <Hits hitComponent={HitWithInsights} />
         </Index>
-          <Pagination />
+        <Pagination />
+        <FrequentlyBoughtTogether
+          recommendClient={recommendClient}
+          indexName={'best-buy_perso_nick'}
+          objectIDs={[hit.objectID]}
+          itemComponent={RelatedItem}
+        />
       </InstantSearch>
     </div>
   );

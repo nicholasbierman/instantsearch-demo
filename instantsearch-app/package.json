@@ -9,6 +9,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "@algolia/recommend-react": "^1.0.0",
     "algoliasearch": "3.35.1",
     "instantsearch.js": "^4.25.2",
     "react": "16.12.0",
