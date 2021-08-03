@@ -38,11 +38,17 @@ export const ProductDetails = () => {
           <button>
             <a href="/">Return Home</a>
           </button>
+          <br />
           <div className="aa-ItemContent">
             <img alt={hit.name} src={hit.image}></img>
             <div className="aa-ItemTitle">{hit.name}</div>
-            <div>{hit.description}</div>
-            <div>Price: ${hit.price}</div>
+            <br />
+            <span>{hit.description}</span>
+            <br />
+            <br />
+            <span>Price: ${hit.price}</span>
+            <br />
+            <br />
             <button onClick={onClick}>
               <a target="_blank" rel="noopener noreferrer" href={hit.url}>
                 Go Buy It!
@@ -63,6 +69,7 @@ export const ProductDetails = () => {
           indexName={'best-buy_perso_nick'}
           objectIDs={[hit.objectID]}
           itemComponent={RelatedItem}
+          maxRecommendations={4}
         />
       </InstantSearch>
     </div>

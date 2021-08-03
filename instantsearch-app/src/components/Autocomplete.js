@@ -1,6 +1,7 @@
 import { autocomplete } from '@algolia/autocomplete-js';
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
 import { render } from 'react-dom';
+import { connectAutoComplete } from 'react-instantsearch-core';
 
 
 export const Autocomplete = (props) => {
@@ -28,5 +29,7 @@ export const Autocomplete = (props) => {
   return <div ref={containerRef}></div>;
 };
 
-export default Autocomplete;
+export const CustomAutocomplete = connectAutoComplete(Autocomplete);
+
+export default CustomAutocomplete;
 

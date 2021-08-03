@@ -1,0 +1,19 @@
+ol.auc-Recommend-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -1rem;
+    margin-left: -1rem;
+    justify-content: space-between;
+}
+
+.auc-Recommend-item {
+    margin-top: 1rem;
+    margin-left: 1rem;
+    padding: 1rem;
+    width: calc(33% - 1rem);
+    border: 1px solid #c4c8d8;
+    box-shadow: 0 2px 5px 0 #e3e5ec;
+    box-sizing: border-box;
+    color: #3a4570;
+    list-style: none;
+}

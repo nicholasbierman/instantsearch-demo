@@ -16,6 +16,7 @@ import './App.css';
 import HitWithInsights from './components/Hit';
 import ProductDetails from './components/ProductDetails';
 import RelatedItem from './components/RelatedItem';
+import CustomAutocomplete from './components/Autocomplete';
 
 
 export const searchClient = algoliasearch(
@@ -39,6 +40,7 @@ function App() {
             <option value="best-buy">Relevance</option>
             <option value="best-buy_price_desc">Price Descending</option>
             <option value="best-buy-price_asc">Price Ascending</option>
+            <option value="best-buy_perso_nick">Personalized for me</option>
           </select>
           <InstantSearch searchClient={searchClient} indexName={indexName}>
             <div className="search-panel">
