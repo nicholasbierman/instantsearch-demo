@@ -1,20 +1,12 @@
 import React, { useEffect } from 'react';
-import { FrequentlyBoughtTogether } from '@algolia/recommend-react';
-import recommend from '@algolia/recommend';
-
-const recommendClient = recommend(
-  'NSMMHUZMQS',
-  'ef0985fb06ac10d3b759ce42df2d4745'
-);
-const indexName = 'best-buy_perso_nick';
 
 export const RelatedItem = ({ item }) => {
   useEffect(() => {
     console.log('ITEM', item);
   }, [item]);
   return (
-    <div className="ais-Hits">
-      
+    <div style={{display: 'inline'}}>
+      {/* <ul className="ais-Hits-list"> */}
         {item && (
           <li className="ais-Hits-item">
             <div className="aa-ItemContent">
@@ -30,7 +22,7 @@ export const RelatedItem = ({ item }) => {
             </div>
           </li>
         )}
-      
+      {/* </ul> */}
     </div>
   );
 };

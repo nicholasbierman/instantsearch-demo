@@ -1,5 +1,5 @@
 import algoliasearch from 'algoliasearch/lite';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import {
   ClearRefinements,
@@ -15,15 +15,8 @@ import {
 import './App.css';
 import HitWithInsights from './components/Hit';
 import ProductDetails from './components/ProductDetails';
-import { FrequentlyBoughtTogether, useRecommendations } from '@algolia/recommend-react';
-import recommend from '@algolia/recommend';
 import RelatedItem from './components/RelatedItem';
-import {useDispatch, useSelector} from 'react-redux';
 
-const recommendClient = recommend(
-  'NSMMHUZMQS',
-  'ef0985fb06ac10d3b759ce42df2d4745'
-);
 
 export const searchClient = algoliasearch(
   'NSMMHUZMQS',
@@ -32,10 +25,6 @@ export const searchClient = algoliasearch(
 
 function App() {
   const [indexName, setIndexName] = useState('best-buy');
-  useEffect(() => {
-    console.log("CURRENT OBJECT ID", currentObjectID);
-  }, [currentObjectID])
-  const currentObjectID = useSelector(state => state.currentObjectID);
 
   return (
     <div className="container">

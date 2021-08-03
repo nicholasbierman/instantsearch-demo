@@ -87,6 +87,8 @@ with open('golf-courses-usa.csv') as file:
         type_holes_address_phone_list = row[3].split(')')
         dict["type"] = type_holes_address_phone_list[0].replace('(', '')
         dict["num_holes"] = type_holes_address_phone_list[1].replace(' (', '')
+        dict["num_holes"] = int(dict["num_holes"])
+        print(dict["num_holes"])
         new_list = type_holes_address_phone_list[2].split(', ')
         try: 
             city_state_zip = new_list[2].split(',')
