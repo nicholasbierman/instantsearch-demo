@@ -18,6 +18,8 @@ const recommendClient = recommend(
   'ef0985fb06ac10d3b759ce42df2d4745'
 );
 
+const indexName = 'best-buy_perso_nick';
+
 export const ProductDetails = () => {
   let hit = useLocation().hit;
   let insights = useLocation().insights;
@@ -31,7 +33,7 @@ export const ProductDetails = () => {
     <div>
       <InstantSearch
         searchClient={searchClient}
-        indexName="best-buy_perso_nick"
+        indexName={indexName}
       >
         <div>
           <button>
@@ -60,14 +62,14 @@ export const ProductDetails = () => {
         </div>
         <FrequentlyBoughtTogether
           recommendClient={recommendClient}
-          indexName={'best-buy_perso_nick'}
+          indexName={indexName}
           objectIDs={[hit.objectID]}
           itemComponent={RelatedItem}
           maxRecommendations={4}
         />
         <RelatedProducts
           recommendClient={recommendClient}
-          indexName={'best-buy_perso_nick'}
+          indexName={indexName}
           objectIDs={[hit.objectID]}
           itemComponent={RelatedItem}
           view={HorizontalSlider}
