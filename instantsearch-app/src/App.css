@@ -130,3 +130,10 @@ body { font-family: sans-serif; padding: 1em; }
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+
+div.container select {
+  margin-bottom: 1em;
+  text-align: center;
+  padding: .5em;
+  width:fit-content;
+}
