@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { Highlight, connectAutoComplete } from 'react-instantsearch-dom';
 import AutoSuggest from 'react-autosuggest';
 
-class Autocomplete extends Component {
-  static propTypes = {
-    hits: PropTypes.arrayOf(PropTypes.object).isRequired,
-    currentRefinement: PropTypes.string.isRequired,
-    refine: PropTypes.func.isRequired,
-    onSuggestionSelected: PropTypes.func.isRequired,
-    onSuggestionCleared: PropTypes.func.isRequired,
-  };
+const Autocomplete = props => {
+  // propTypes = {
+  //   hits: PropTypes.arrayOf(PropTypes.object).isRequired,
+  //   currentRefinement: PropTypes.string.isRequired,
+  //   refine: PropTypes.func.isRequired,
+  //   onSuggestionSelected: PropTypes.func.isRequired,
+  //   onSuggestionCleared: PropTypes.func.isRequired,
+  // };
 
-  state = {
-    value: this.props.currentRefinement,
-  };
+  const [value, setValue] = useState(props.currentRefinement);
 
   // returns a boolean based on whether or not we have a matching category
-  isSuggestionHasCategories(suggestion) {
+  const isSuggestionHasCategories = suggestion => {
     return (
       suggestion.instant_search &&
       suggestion.instant_search.facets &&
@@ -25,7 +22,7 @@ class Autocomplete extends Component {
       suggestion.instant_search.facets.exact_matches.categories &&
       suggestion.instant_search.facets.exact_matches.categories.length
     );
-  }
+  };
 
   // suggestions is array of 5 objects because we have the number of hits capped at 5
   // each object has the following structure:
@@ -43,14 +40,14 @@ class Autocomplete extends Component {
     }
   }
     */
-  normalizeSuggestionCategories(suggestions) {
+  const normalizeSuggestionCategories = suggestions => {
     return suggestions.map(suggestion => {
       const context = suggestion.instant_search || {};
       const facets = context.facets || {};
       const matches = facets.exact_matches || {};
       const categories = matches.categories || [];
       const hierarchicalCategories_lvl0 =
-        matches["hierarchicalCategories.lvl0"] || [];
+        matches['hierarchicalCategories.lvl0'] || [];
       return {
         ...suggestion,
         // eslint-disable-next-line
@@ -70,10 +67,10 @@ class Autocomplete extends Component {
         },
       };
     });
-  }
+  };
 
   // create a duplicate of the most relevant suggestion with a special value for categories
-  createMostRelevantSuggestionForAllCategories(suggestion) {
+  const createMostRelevantSuggestionForAllCategories = suggestion => {
     return {
       ...suggestion,
       // eslint-disable-next-line
@@ -89,36 +86,33 @@ class Autocomplete extends Component {
         },
       },
     };
-  }
+  };
 
-  onChange = (_, { newValue }) => {
+  const onChange = (_, { newValue }) => {
     if (!newValue) {
-      this.props.onSuggestionCleared();
+      props.onSuggestionCleared();
     }
-
-    this.setState({
-      value: newValue,
-    });
+    setValue(newValue);
   };
 
   // Autosuggest will call this function every time you need to update suggestions.
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.props.refine(value);
+  const onSuggestionsFetchRequested = ({ value }) => {
+    props.refine(value);
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
+  const onSuggestionsClearRequested = () => {
     // refine comes from Algolia
-    this.props.refine();
+    props.refine();
   };
 
   // tell Autosuggest what should be the input value
   // when the suggestion is clicked
-  getSuggestionValue(hit) {
+  const getSuggestionValue = hit => {
     return hit.query;
-  }
+  };
 
-  renderSuggestion(hit) {
+  const renderSuggestion = hit => {
     const [category] = hit.instant_search.facets.exact_matches.categories;
 
     return (
@@ -135,40 +129,33 @@ class Autocomplete extends Component {
         )}
       </span>
     );
-  }
+  };
+  const inputProps = {
+    placeholder: 'Search for a product by name, brand, or type...',
+    onChange: onChange,
+    value,
+  };
 
-  render() {
-    const { hits, onSuggestionSelected } = this.props;
-    const { value } = this.state;
-    // Autosuggest will pass through all these props to the input.
-    // must contain at least value and onChange
-    const inputProps = {
-      placeholder: 'Search for a product by name, brand, or type...',
-      onChange: this.onChange,
-      value,
-    };
+  const suggestions = normalizeSuggestionCategories(props.hits);
+  // ensure we have at least one suggestion
+  // and that we can access its 'categories' property
+  // otherwise return an empty array
+  const suggestionsWithAllCategories =
+    suggestions[0] && isSuggestionHasCategories(suggestions[0])
+      ? [createMostRelevantSuggestionForAllCategories(suggestions[0])]
+      : [];
 
-    const suggestions = this.normalizeSuggestionCategories(hits);
-    // ensure we have at least one suggestion
-    // and that we can access its 'categories' property
-    // otherwise return an empty array
-    const suggestionsWithAllCategories =
-      suggestions[0] && this.isSuggestionHasCategories(suggestions[0])
-        ? [this.createMostRelevantSuggestionForAllCategories(suggestions[0])]
-        : [];
-
-    return (
-      <AutoSuggest
-        suggestions={[...suggestionsWithAllCategories, ...suggestions]}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={inputProps}
-      />
-    );
-  }
-}
+  return (
+    <AutoSuggest
+      suggestions={[...suggestionsWithAllCategories, ...suggestions]}
+      onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+      onSuggestionsClearRequested={onSuggestionsClearRequested}
+      onSuggestionSelected={props.onSuggestionSelected}
+      getSuggestionValue={getSuggestionValue}
+      renderSuggestion={renderSuggestion}
+      inputProps={inputProps}
+    />
+  );
+};
 
 export default connectAutoComplete(Autocomplete);
