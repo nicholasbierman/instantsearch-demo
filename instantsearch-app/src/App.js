@@ -89,7 +89,6 @@ class App extends Component {
             </InstantSearch>
 
             <InstantSearch searchClient={searchClient} indexName={indexName}>
-              <Configure hitsPerPage={16} />
               <VirtualSearchBox defaultRefinement={query} />
               <VirtualRefinementList
                 attribute="categories"
@@ -116,7 +115,7 @@ class App extends Component {
               </div>
 
               <Hits hitComponent={HitWithInsights} />
-              <Configure clickAnalytics />
+              <Configure hitsPerPage={16} clickAnalytics />
               <Pagination />
             </InstantSearch>
           </Route>
