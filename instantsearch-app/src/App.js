@@ -11,6 +11,7 @@ import {
   RefinementList,
   Pagination,
   RatingMenu,
+  connectHierarchicalMenu,
 } from 'react-instantsearch-dom';
 import Autocomplete from './components/Autocomplete';
 import HitWithInsights from './components/Hit';
@@ -26,11 +27,13 @@ export const searchClient = algoliasearch(
 const VirtualSearchBox = connectSearchBox(() => null);
 // apply the related category on the main search
 const VirtualRefinementList = connectRefinementList(() => null);
+const VirtualHierarchicalMenu = connectHierarchicalMenu(() => null);
 
 class App extends Component {
   state = {
     query: '',
     categories: [],
+    items: [],
     indexName: 'best-buy',
   };
 
