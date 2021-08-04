@@ -1,14 +1,9 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import {
-  Hits,
   InstantSearch,
-  Configure,
-  Pagination,
-  Index,
 } from 'react-instantsearch-dom';
 import { searchClient } from '../App';
-import HitWithInsights from './Hit';
 import {
   FrequentlyBoughtTogether,
   RelatedProducts,

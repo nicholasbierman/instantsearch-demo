@@ -16,7 +16,6 @@ import './App.css';
 import HitWithInsights from './components/Hit';
 import ProductDetails from './components/ProductDetails';
 import RelatedItem from './components/RelatedItem';
-import CustomAutocomplete from './components/Autocomplete';
 
 
 export const searchClient = algoliasearch(
