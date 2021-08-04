@@ -120,7 +120,6 @@ class Autocomplete extends Component {
 
   renderSuggestion(hit) {
     const [category] = hit.instant_search.facets.exact_matches.categories;
-    console.log("CATEGORY", [category]);
 
     return (
       <span>
@@ -150,7 +149,6 @@ class Autocomplete extends Component {
     };
 
     const suggestions = this.normalizeSuggestionCategories(hits);
-    console.log("FIRST SUGGESTION", suggestions[0]);
     // ensure we have at least one suggestion
     // and that we can access its 'categories' property
     // otherwise return an empty array

@@ -13,33 +13,26 @@ import {
   RatingMenu,
 } from 'react-instantsearch-dom';
 import Autocomplete from './components/Autocomplete';
-import Hit from './components/Hit';
+import HitWithInsights from './components/Hit';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import ProductDetails from './components/ProductDetails';
-import RelatedItem from './components/RelatedItem';
 
 export const searchClient = algoliasearch(
   'NSMMHUZMQS',
   'ef0985fb06ac10d3b759ce42df2d4745'
 );
 
-// apply the related category on the main search
 const VirtualSearchBox = connectSearchBox(() => null);
+// apply the related category on the main search
 const VirtualRefinementList = connectRefinementList(() => null);
 
 class App extends Component {
   state = {
     query: '',
     categories: [],
-    indexName: "best-buy"
+    indexName: 'best-buy',
   };
-
-  setIndexName = (e) => {
-    this.setState({
-      indexName: e.target.value
-    })
-  }
 
   // first argument is the event object
   onSuggestionSelected = (_, { suggestion }) => {
@@ -70,11 +63,7 @@ class App extends Component {
       <div className="container">
         <Switch>
           <Route path="/:product">
-            <Route path="/:product">
-              <ProductDetails />
-
-              <RelatedItem />
-            </Route>
+            <ProductDetails />
           </Route>
           <Route path="/">
             <select
@@ -126,7 +115,7 @@ class App extends Component {
                 <RatingMenu attribute="rating" />
               </div>
 
-              <Hits hitComponent={Hit} />
+              <Hits hitComponent={HitWithInsights} />
               <Configure clickAnalytics />
               <Pagination />
             </InstantSearch>
