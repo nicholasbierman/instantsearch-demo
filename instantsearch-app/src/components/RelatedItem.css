@@ -25,3 +25,20 @@ ol.auc-Recommend-list {
 .auc-Recommend-item {
     width: calc(33% - 1rem);
 }
+
+div.productDetail-ItemContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.productDetail-ItemTitle {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.productDetail-ItemDescription {
+    font-weight: 500;
+    line-height: 1.5;
+}

@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import './RelatedItem.css';
+import { Hits, Index, Configure } from 'react-instantsearch-dom';
+import { HitWithInsights } from './Hit'
 
 export const RelatedItem = ({ item }) => {
   useEffect(() => {
@@ -28,9 +30,7 @@ export const RelatedItem = ({ item }) => {
             </a>
           </button>
         </div>
-        //   </li>
       )}
-      {/* </ul> */}
     </div>
   );
 };
