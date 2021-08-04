@@ -9,9 +9,14 @@ import {
 } from 'react-instantsearch-dom';
 import { searchClient } from '../App';
 import HitWithInsights from './Hit';
-import { FrequentlyBoughtTogether } from '@algolia/recommend-react';
+import {
+  FrequentlyBoughtTogether,
+  RelatedProducts,
+} from '@algolia/recommend-react';
 import { RelatedItem } from './RelatedItem';
 import recommend from '@algolia/recommend';
+import { HorizontalSlider } from '@algolia/ui-components-horizontal-slider-react';
+import '@algolia/ui-components-horizontal-slider-theme';
 
 
 const recommendClient = recommend(
@@ -70,6 +75,13 @@ export const ProductDetails = () => {
           objectIDs={[hit.objectID]}
           itemComponent={RelatedItem}
           maxRecommendations={4}
+        />
+        <RelatedProducts
+          recommendClient={recommendClient}
+          indexName={'best-buy_perso_nick'}
+          objectIDs={[hit.objectID]}
+          itemComponent={RelatedItem}
+          view={HorizontalSlider}
         />
       </InstantSearch>
     </div>

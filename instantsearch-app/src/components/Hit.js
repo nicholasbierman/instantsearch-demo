@@ -6,16 +6,12 @@ import {
   connectHitInsights,
 } from 'react-instantsearch-dom';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { storeCurrentObjectID } from '../store/currentObjectID';
 
 export const Hit = ({ hit, insights }) => {
-  const dispatch = useDispatch();
   const onClick = (insights) => {
     insights('clickedObjectIDsAfterSearch', {
       eventName: 'Product Clicked',
     });
-    dispatch(storeCurrentObjectID(hit.objectID))
   };
 
   return (
