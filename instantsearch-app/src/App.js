@@ -24,6 +24,7 @@ export const searchClient = algoliasearch(
   'ef0985fb06ac10d3b759ce42df2d4745'
 );
 
+// apply the related category on the main search
 const VirtualSearchBox = connectSearchBox(() => null);
 const VirtualRefinementList = connectRefinementList(() => null);
 
@@ -40,11 +41,14 @@ class App extends Component {
     })
   }
 
+  // first argument is the event object
   onSuggestionSelected = (_, { suggestion }) => {
     const [
       category,
     ] = suggestion.instant_search.facets.exact_matches.categories;
 
+    // when the selected category is "ALL_CATEGORIES",
+    // use an empty array for defaultRefinement
     this.setState({
       query: suggestion.query,
       categories:
@@ -124,6 +128,7 @@ class App extends Component {
 
               <Hits hitComponent={Hit} />
               <Configure clickAnalytics />
+              <Pagination />
             </InstantSearch>
           </Route>
         </Switch>
