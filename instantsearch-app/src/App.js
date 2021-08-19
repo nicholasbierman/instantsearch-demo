@@ -11,12 +11,12 @@ import {
   RefinementList,
   SearchBox,
   RatingMenu,
-  Index,
 } from 'react-instantsearch-dom';
 import './App.css';
 import HitWithInsights from './components/Hit';
 import ProductDetails from './components/ProductDetails';
 import RelatedItem from './components/RelatedItem';
+import Banner from './components/Banner';
 
 export const searchClient = algoliasearch(
   'NSMMHUZMQS',
@@ -74,8 +74,8 @@ function App() {
                     <h2>Star Rating</h2>
                     <RatingMenu attribute="rating" />
                   </div>
+                  <Banner />
                   <Hits hitComponent={HitWithInsights} />
-
                   <div className="pagination">
                     <Pagination />
                   </div>
