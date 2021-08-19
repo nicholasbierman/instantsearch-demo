@@ -28,7 +28,7 @@ function App() {
 
   return (
     <>
-      <nav style={{"margin":"1rem"}}>
+      <nav style={{ margin: '1rem' }}>
         <NavLink to="/on-sale">On Sale</NavLink>
       </nav>
       <div className="container">
@@ -55,6 +55,7 @@ function App() {
                       placeholder: 'Search for name, brand, type...',
                     }}
                   />
+                  <Banner />
                   <div className="left-panel">
                     <ClearRefinements />
                     <HierarchicalMenu
@@ -74,14 +75,19 @@ function App() {
                     <h2>Star Rating</h2>
                     <RatingMenu attribute="rating" />
                   </div>
-                  <Banner />
+
                   <Hits hitComponent={HitWithInsights} />
                   <div className="pagination">
                     <Pagination />
                   </div>
                 </div>
               </div>
-              <Configure analyticsTags={indexName === "best-buy_category_pages" && ['on-sale']} clickAnalytics />
+              <Configure
+                analyticsTags={
+                  indexName === 'best-buy_category_pages' && ['on-sale']
+                }
+                clickAnalytics
+              />
             </InstantSearch>
           </Route>
         </Switch>

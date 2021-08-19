@@ -64,3 +64,12 @@ body { font-family: sans-serif; padding: 1em; }
 .ais-Pagination { margin-top: 1em }
 .left-panel { float: left; width: 250px; }
 .right-panel { margin-left: 260px; }
+
+div.ais-QueryRuleCustomData {
+  color: orange;
+  text-align: center;
+}
+
+div.ais-QueryRuleCustomData p {
+  border: 1px solid purple;
+}
