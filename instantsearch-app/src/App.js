@@ -1,6 +1,6 @@
 import algoliasearch from 'algoliasearch/lite';
 import React, { useState } from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import {
   ClearRefinements,
   HierarchicalMenu,
@@ -28,9 +28,6 @@ function App() {
 
   return (
     <>
-      <nav style={{ margin: '1rem' }}>
-        <NavLink to="/on-sale">On Sale</NavLink>
-      </nav>
       <div className="container">
         <Switch>
           <Route path="/:product">
